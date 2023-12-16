@@ -5,15 +5,20 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
-      - PUID=1000    #preciser l'id du user qui sera utilisé par qbittorrent
-      - PGID=1000    #preciser l'id du group du user qui sera utilisé par qbittorrent
-      - TZ=Etc/UTC
-      #- WEBUI_PORT=8080  ne pas utiliser si on utilise un reverse proxy
+      - PUID=0                            #preciser l'id du user qui sera utilisé par qbittorrent, sinon root par defaut
+      - PGID=0                            #preciser l'id du group du user qui sera utilisé par qbittorrent, sinon root par defaut
+      - TZ=Etc/UTC                        #voir la liste ici : https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+      #- WEBUI_PORT=8080                  #décommenter si on utilise un reverse proxy
+      #- WEBUI_PORT=6881                  #commenter si on utilise un reverse proxy
     volumes:
-      - /path/to/appdata/config:/config
-      - /path/to/downloads:/downloads
+      - /path/to/appdata/config:/config   #a modifier
+      - /path/to/downloads:/downloads     #a modifier
     ports:
-      #- 8080:8080      ne pas utiliser si on utilise un reverse proxy
-      - 6881:6881
-      - 6881:6881/udp
+      #avec reverse proxy
+      - 6881:8080
+      - 6881:8080/udp
+      #sans reverse proxy
+      #- 8080:8080
+      #- 6881:6881
+      #- 6881:6881/udp
     restart: unless-stopped
