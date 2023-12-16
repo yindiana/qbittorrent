@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    restart: always
+    environment:
+      - PUID=0  # Remplacez par votre ID utilisateur
+      - PGID=0  # Remplacez par votre ID de groupe
+      - TZ=Europe/Paris  # Remplacez par votre fuseau horaire
+      - WEBUI_PORT=8082  # Changer le port WebUI pour 8082 (ou tout autre port que vous préférez)
+    volumes:
+      - /opt/qbittorrent/config:/config
+      - /opt/qbittorrent/downloads:/downloads
+      - /opt/qbittorrent/watch:/watch
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8082:8082  # Exposer le nouveau port WebUI au lieu du 8080
+
+  ovpn:
+    image: linuxserver/openvpn-as
+    container_name: openvpn
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Europe/Paris
+    volumes:
+      - /opt/openvpn/config:/config
+    ports:
+      - 943:943  # Port pour l'interface d'administration d'OpenVPN
+    restart: always
