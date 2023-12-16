@@ -9,13 +9,16 @@ services:
       - VPN_PASSWORD=password
       - PUID=0  # Facultatif
       - PGID=0  # Facultatif
+      - TZ=Europe/Paris  # Remplacez par votre fuseau horaire
       - INCOMING_PORT_ENV=8999  # Facultatif
       - VPN_ENABLED=yes
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS=8.8.8.8,8.8.4.4
+      - WEBUI_PORT=8082  # Changer le port WebUI pour 8082 (ou tout autre port que vous préférez)
     ports:  # Correction ici (port -> ports)
-      - 8999:80
-      - 8999:80/udp
+      - 8999:8999
+      - 8999:8999/udp
+      - 8082:8082  # Exposer le nouveau port WebUI au lieu du 8080
     volumes:
       - /downloads:/downloads
       - /qbittorrentvpn/config:/config
