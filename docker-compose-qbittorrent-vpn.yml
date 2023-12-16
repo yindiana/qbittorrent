@@ -1,26 +1,23 @@
----
 version: "2"
-services
+services:
   qbittorrentvpn:
     image: markusmcnugen/qbittorrentvpn
     container_name: qbittorrentvpn
-    priviliged: true
+    privileged: true  # Notez la correction ici (priviliged -> privileged)
     environment:
       - VPN_USERNAME=username
       - VPN_PASSWORD=password
-      - PUID=0                            #OPTIONNAL
-      - PGID=0                            #OPTIONNAL
-      - WEBUI_PORT_ENV=8080               #OPTIONNAL
-      - INCOMING_PORT_ENV=8999            #OPTIONNAL
+      - PUID=0  # Facultatif
+      - PGID=0  # Facultatif
+      - INCOMING_PORT_ENV=8999  # Facultatif
       - VPN_ENABLED=yes
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS=8.8.8.8,8.8.4.4
-    port:
-      - 8080:8080
-      - 8999:8999
-      - 8999:8999/udp
+    ports:  # Correction ici (port -> ports)
+      - 8999:80
+      - 8999:80/udp
     volumes:
-      - /your/downloads/path/:/downloads
-      - /your/config/path/:/config
+      - /downloads:/downloads
+      - /qbittorrentvpn/config:/config
     restart: unless-stopped
 #https://helpdesk.privateinternetaccess.com/kb/articles/where-can-i-find-your-ovpn-files
